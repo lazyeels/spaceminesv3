@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html> 
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-touch-fullscreen" content="yes" />
+<meta name="description" content="">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="user-scalable=yes, initial-scale=1.0, minimum-scale=0.2, maximum-scale=1.0">
+<meta http-equiv="cleartype" content="on">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+   html{background-color: #000;}
+</style>
+<link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Chau+Philomene+One' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Orbitron:400,900' rel='stylesheet' type='text/css'>
+<link type="text/css" rel="stylesheet" href="css/button.css"></link>
+<link type='text/css' rel='stylesheet' href="css/main.css" />
+<script type="text/javascript" src="js/class_helpers.js"></script>
+<script type="text/javascript" src="js/entity.js"></script>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/game_class.js"></script>
+<script type="text/javascript" src="js/player_class.js"></script>
+<script type="text/javascript" src="js/utils.js"></script>
+<script type="text/javascript" src="js/state_machine.js"></script>
+<script type="text/javascript" src="js/world.js"></script>
+<script type="text/javascript" src="js/level_template.js"></script>
+<script type="text/javascript" src="js/titlescreen.js"></script>
+<script type="text/javascript" src="js/timer.js"></script>
+<script type="text/javascript" src="js/inventory.js"></script>
+<script type="text/javascript" src="js/build.js"></script>
+<script type="text/javascript" src="js/terrain.js"></script>
+<script type="text/javascript" src="js/simulation.js"></script>
+<script type="text/javascript" src="js/ship.js"></script>
+<script type="text/javascript" src="js/mine.js"></script>
+<script type="text/javascript" src="js/accommodation.js"></script>
+<script type="text/javascript" src="js/food.js"></script>
+<script type="text/javascript" src="js/HQ.js"></script>
+<script type="text/javascript" src="js/research.js"></script>
+<script type="text/javascript" src="js/factory.js"></script>
+<script type="text/javascript" src="js/cursor.js"></script>
+<script type="text/javascript" src="js/hydroponics.js"></script>
+<script type="text/javascript" src="js/oxygen.js"></script>
+<script type="text/javascript" src="js/solar.js"></script>
+<script type="text/javascript" src="js/silo.js"></script>
+<script type="text/javascript" src="js/satellite.js"></script>
+<script type="text/javascript" src="js/titlescreen.js"></script>
+<script type="text/javascript" src="js/starfield.js"></script>
+<script type="text/javascript" src="js/asteroid_manager.js"></script>
+<script type="text/javascript" src="js/text_animation.js"></script>
+<script type="text/javascript" src="js/universe.js"></script>
+<script type="text/javascript" src="js/asteroid.js"></script>
+<script type="text/javascript" src="js/assetLoader.js"></script>
+<script type="text/javascript" src="js/particle_class.js"></script>
+<script type="text/javascript" src="js/explosion.js"></script>
+<script type="text/javascript" src="/_ah/channel/jsapi"></script>
+
+<body>
+    <div id="stats" class="menu">
+
+    </div>
+    <div id="message"></div>
+    <div id="titlemenu"></div>
+    <div id="sell"></div>
+    <div id="panel">
+        <span onClick="Game.toggleView();" onMouseover="Game.addMessage(Game.world.id, 'View_Galaxy')" ><img id="showRegion" src='./img/radar.png' width=32px height=32px /></span>
+        <span id="buildtool" class="button" onClick="Game.world.Set('BUILD')" onMousemove="Game.addMessage(Game.world.id, 'Build_menu.')" >Build</span>
+        <span id="evac" class="button" onClick="Game.Evac()" onMousemove="Game.addMessage(Game.world.id, 'Evacuate_necessary_resources_(ore_and_cash).')">Evacuate</span>
+        <span id="world-nav"></span>
+    </div>
+
+    <div id="buildmenu"></div>
+    <canvas id="canvas" width="640" height="480" onClick=""></canvas>
+    <table id="alerts" class="menu"><tr><td id="alert_text" >Nothing to report</td>
+    <td></td>
+    <td id="clock" class="title" style="text-align: right;">0:0:0</td></tr></table>
+<div id="donate">
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+">
+<input id="donate" type="submit" class="awesome button" border="0" name="Donate" value="Buy me a beer">
+<img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1">
+</form>
+</div>
+
+
+</body> 
+<script>
+Game = new Game(fps);
+/* channel = new goog.appengine.Channel('{{ token }}');
+socket = channel.open();
+socket.onopen = Game.onOpened;
+socket.onmessage = Game.onMessage;
+
+var name = 'K2013';
+var my_nickname = "{{ nickname }}";
+var token = "{{ token }}";
+
+var xhr = new XMLHttpRequest();
+xhr.open('POST', '/games');
+//xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+xhr.send('game_name=' + name);
+xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4) {
+        if (xhr.status == 200) {
+            location.href = '/games/' + name;
+        } else {
+           alert('Error creating game: ' + xhr.responseText);
+        }
+    }
+};
+*/
+var gamedata = {}
+var timer = new Timer();
+var startTime = timer.getSeconds();
+var fpsCount = 0;
+var fps = fpsCount;
+
+
+// Test for keyup and keydown events and run corresponding function in Game Class.
+document.onkeydown = function(e){
+//    e.preventDefault();
+    Game.keydown(e);
+};
+
+document.onkeyup = function(e){
+    Game.keyup(e);
+};
+
+//window.addEventListener('resize', Game.resize, false);
+// Start the game loop
+var draw = function(timeStamp){
+    window.requestAnimationFrame(draw, Game.canvas);
+	timer.update();
+	if (timeStamp !== timer.getSeconds()) {
+		fps = fpsCount;
+		fpsCount = 0;
+	} else {
+		fpsCount++;
+	}
+    Game.update();
+    Game.draw(timer);
+};
+
+draw(startTime);
+
+</script>
+</html> 

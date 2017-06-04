@@ -1,0 +1,42 @@
+<html>
+<link type="text/css" rel="stylesheet" href="css/button.css"></link>
+<link type='text/css' rel='stylesheet' href="css/main.css" />
+
+<style>
+.ic_small{
+    height: 24px;
+    width: 24px;
+}
+</style>
+
+<head>
+</head>
+
+<body>
+<table>
+<img src="img/ESA.jpg" />
+<tr>
+<td class="large red awesome" onClick=Game.state.onMouseDown("mine") onMouseDown="Game.menu_click.play()">
+<img src="img/mine.png" class="ic_small"/>
+<img src="img/money.png" width=16px height=16px /> 100
+<img src="img/ore.png" width=24px height=24px /> 100 
+</td>
+
+<td class="large green awesome" onClick=Game.state.onMouseDown("home") onMouseDown="Game.menu_click.play()">
+<img src="img/home.png" class="ic_small"/>
+<img src="img/money.png" width=16px height=16px /> 450 
+<img src="img/ore.png" width=24px height=24px /> 150
+</td>
+
+<td class="large blue awesome" onClick=Game.state.onMouseDown("food") onMouseDown="Game.menu_click.play()">
+<img src="img/food.png" class="ic_small"/>
+<img src="img/money.png" class="ic_small" /> 350 
+<img src="img/ore.png" class="ic_small" /> 200</li>
+</tr>
+<tr>
+    <td><div class="button" onClick=Game.state.close() onMouseDown="Game.menu_click.play()">Close</div></td>
+</tr>
+</table>
+</body>
+
+</html>
