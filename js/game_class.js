@@ -149,6 +149,30 @@ Game.prototype.Init = function(fps){
     this.satellites = [];
     this.messages = [];
     this.game_objects = [];
+
+    this.canvas.addEventListener('touchstart', function(e){
+        var touchobj = e.changedTouches[0] // reference first touch point (ie: first finger)
+        this.mouse.x = parseInt(touchobj.clientX);
+        this.mouse.y = parseInt(touchobj.clientY);
+        this.mouse.clicked = true;
+        e.preventDefault()
+    }, false)
+ 
+    this.canvas.addEventListener('touchmove', function(e){
+//        var touchobj = e.changedTouches[0] // reference first touch point for this event
+//        var dist = parseInt(touchobj.clientX) - startx
+//        statusdiv.innerHTML = 'Status: touchmove<br> Horizontal distance traveled: ' + dist + 'px'
+//        e.preventDefault()
+    }, false)
+ 
+    this.canvas.addEventListener('touchend', function(e){
+        var touchobj = e.changedTouches[0] // reference first touch point for this event
+        this.mouse.x = parseInt(touchobj.clientX);
+        this.mouse.y = parseInt(touchobj.clientY);
+        this.mouse.clicked = false;
+        e.preventDefault()
+    }, false)
+
     this.initialised = true;
 };
 
@@ -280,6 +304,18 @@ Game.prototype.onMouseDown = function(e){
 Game.prototype.onMouseUp = function(e){
     if(this.initialised){
         this.state.onMouseUp(e);
+    }
+};
+
+Game.prototype.onTouchDown = function(e){
+    if(this.initialised){
+        this.state.onTouchDown(e);
+    }
+};
+
+Game.prototype.onTouchUp = function(e){
+    if(this.initialised){
+        this.state.onTouchUp(e);
     }
 };
 
