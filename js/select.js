@@ -1,6 +1,7 @@
 var Mod = function(Game){
     this.game = Game;
     this.mouse = utils.captureMouse(this.game.canvas);
+    this.touch = utils.captureTouch(this.game.canvas);
     this.cursor_color = "yellow";
     
 };
@@ -21,6 +22,7 @@ Mod.prototype.isEmpty = function(x, y){
 };
 
 Mod.prototype.update = function(dt, xScroll, yScroll){
+//    console.log("updating controls")
     if(this.touch && this.touch.clicked){
         var tilemap = this.game.level.tilemap;
         var tile = utils.getMapCoords(this.touch, tilemap, xScroll, yScroll, 32, 32);
@@ -38,7 +40,7 @@ Mod.prototype.update = function(dt, xScroll, yScroll){
         }
         this.mouse.clicked = false;
     }
-    this.game.messages.push('input:(' + self.mouse.x + ',' +  + self.mouse.y + ',' +  + self.mouse.clicked + ")");
+  //  $('#debug').html('input: (' + this.mouse.x + ',' +  + this.mouse.y + ',' +  + this.mouse.clicked + ')' + ', (' + this.touch.x + ',' +  + this.touch.y + ',' +  + this.touch.clicked + ")");
 
 };
 

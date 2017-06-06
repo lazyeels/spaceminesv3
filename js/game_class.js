@@ -10,8 +10,10 @@ function Game(fps){
     this.android = this.ua.indexOf('android') > -1 ? true : false;
     this.ios = ( this.ua.indexOf('iphone') > -1 || this.ua.indexOf('ipad') > -1  ) ? true : false;
 
+    this.touch = utils.captureTouch(this.canvas);
     if(this.android || this.ios){
         this.canvas.width = document.body.clientWidth;
+
         this.mouse = utils.captureTouch(this.canvas);
     } else {
         this.canvas.width = 720;
@@ -480,6 +482,8 @@ Game.prototype.update = function(){
             this.satellites.splice(i,1); 
         }
     }
+    $('#debug').html('input: (' + this.mouse.x + ',' +  + this.mouse.y + ',' +  + this.mouse.clicked + ')' + ', (' + this.touch.x + ',' +  + this.touch.y + ',' +  + this.touch.clicked + ")");
+
 }; 
 
 Game.prototype.draw = function(timer){

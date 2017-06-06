@@ -3,6 +3,8 @@ function Player(World, tileset){
     this.game = World;
     this.tileset = tileset;
     this.mouse = World.mouse;
+    this.touch = utils.captureTouch(this.game.canvas);
+    console.log(this.touch)
     this.pauseKey = 80;  //Pause button 'p'
     this.state = new StateMachine();
     this.tileID = 0;
@@ -17,6 +19,7 @@ Player.prototype.Init = function(){
 Player.prototype.update = function(dt, xScroll, yScroll){
     if(this.state){
         this.state.update(dt, xScroll, yScroll);
+
     }
 };
 
@@ -42,6 +45,8 @@ Player.prototype.onMouseDown = function(e){
     this.tileID = e;
     this.state.onMouseDown(e);
     this.mouse.clicked = false;
+
+
 };
 
 Player.prototype.draw = function(dt, context, xScroll, yScroll){
