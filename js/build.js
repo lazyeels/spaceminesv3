@@ -11,7 +11,7 @@ var Build = function(Game){
     this.selected = {};    
     this.level = this.game.level;
     this.mouse = this.game.mouse//utils.captureMouse(this.game.canvas);
-    this.touch = this.game.touch//utils.captureMouse(this.game.canvas);
+    this.touch = utils.captureTouch(this.game.canvas);
 };
 
 Build.prototype.Menu = function(){

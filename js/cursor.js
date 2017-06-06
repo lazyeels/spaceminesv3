@@ -5,10 +5,16 @@ var Cursor = function(Game){
 };
 
 Cursor.prototype.update = function(dt){
-    this.x = Math.floor(this.game.mouse.x/32);
-    this.y = Math.floor(this.game.mouse.y/32);
     this.width = 32;
     this.height = 32;
+
+    if (this.game.touch && this.game.touch.x !=null){
+        this.x = Math.floor(this.game.touch.x/this.width);
+        this.y = Math.floor(this.game.touch.y/this.height);
+    } else {
+        this.x = Math.floor(this.game.mouse.x/this.width);
+        this.y = Math.floor(this.game.mouse.y/this.height);
+    }
 };
 
 Cursor.prototype.draw = function(dt, context){

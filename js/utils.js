@@ -92,7 +92,7 @@ utils.captureMouse = function (element) {
  * @return {object} Contains properties: x, y, isPressed, event
  */
 window.utils.captureTouch = function (element) {
-  var touch = {x: null, y: null, isPressed: false, event: null},
+  var touch = {x: null, y: null, clicked: false, event: null},
       body_scrollLeft = document.body.scrollLeft,
       element_scrollLeft = document.documentElement.scrollLeft,
       body_scrollTop = document.body.scrollTop,
