@@ -5,5 +5,6 @@ git add js/*.*
 git add css/*.*
 git add img/*.*
 git add data/*.*
+git commit -m "first commit"
 git push -u origin master
 
