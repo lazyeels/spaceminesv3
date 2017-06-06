@@ -72,6 +72,7 @@ Build.prototype.update = function(dt, xScroll, yScroll){
             this.game.cursor.color = "red";
         }
     }
+
     if(this.touch && this.game.state._current != this.game.state.SHIP && this.game.state._current != this.game.state.MENU){
 //        var tile = Game.world.level.getTileCoords(this.game.mouse);
         var tile = utils.getMapCoords(this.touch, this.level.tilemap, xScroll, yScroll, 32, 32);
@@ -79,7 +80,7 @@ Build.prototype.update = function(dt, xScroll, yScroll){
         if(this.building && this.game.state.mName == 'Asteroid'){
             Game.drawAlert(this.building.name); 
         }
-        if(this.touch.clicked && this.isEmpty(tile.x, tile.y)){
+        if(this.touch.clicked == true && this.isEmpty(tile.x, tile.y)){
             this.Build(tile.x, tile.y, xScroll, yScroll);
             Game.state._current = Game.state.DEFAULT;
             this.touch.clicked = false;
@@ -170,12 +171,13 @@ Build.prototype.isBuilt = function(startX, startY, xScroll, yScroll){
 
 Build.prototype.Select = function(startX, startY, xScroll, yScroll){
     this.game.cursor.color = "yellow";
-    if(this.isBuilt(startX, startY, xScroll, yScroll) && this.mouse.clicked){
+    if(this.isBuilt(startX, startY, xScroll, yScroll) && (this.mouse.clicked || this.touch.clicked)){
         this.building.select = true;
         this.selected.x = startX;
         this.selected.y = startY;
         this.building.Select();
-        this.game.player.mouse.clicked = false;
+        this.mouse.clicked = false;
+        this.touch.clicked = false;
     }
 };
 
