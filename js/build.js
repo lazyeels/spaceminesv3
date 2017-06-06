@@ -10,10 +10,11 @@ var Build = function(Game){
     this.game = Game;
     this.selected = {};    
     this.level = this.game.level;
+    this.mouse = this.game.mouse//utils.captureMouse(this.game.canvas);
+    this.touch = this.game.touch//utils.captureMouse(this.game.canvas);
 };
 
 Build.prototype.Menu = function(){
-    this.mouse = this.game.player.mouse//utils.captureMouse(this.game.canvas);
     var html = '';
     html += '<div class="menu title">Build <span id="menu_info"></span></div>';
     html += '<table id="build-inventory" style="vertical-align: middle;" width=100% class="menu title">';
@@ -61,6 +62,7 @@ Build.prototype.update = function(dt, xScroll, yScroll){
             this.Build(tile.x, tile.y, xScroll, yScroll);
             Game.state._current = Game.state.DEFAULT;
             this.mouse.clicked = false;
+
         }
         this.game.cursor.building = this.building;
 
@@ -70,6 +72,28 @@ Build.prototype.update = function(dt, xScroll, yScroll){
             this.game.cursor.color = "red";
         }
     }
+    if(this.touch && this.game.state._current != this.game.state.SHIP && this.game.state._current != this.game.state.MENU){
+//        var tile = Game.world.level.getTileCoords(this.game.mouse);
+        var tile = utils.getMapCoords(this.touch, this.level.tilemap, xScroll, yScroll, 32, 32);
+        this.building = this.level.tilemap[tile.x][tile.y]; 
+        if(this.building && this.game.state.mName == 'Asteroid'){
+            Game.drawAlert(this.building.name); 
+        }
+        if(this.touch.clicked && this.isEmpty(tile.x, tile.y)){
+            this.Build(tile.x, tile.y, xScroll, yScroll);
+            Game.state._current = Game.state.DEFAULT;
+            this.touch.clicked = false;
+
+        }
+        this.game.cursor.building = this.building;
+
+        this.Select(tile.x, tile.y, xScroll, yScroll);
+
+        if(this.level.resource_map[tile.x] && this.level.resource_map[tile.x][tile.y] == undefined){
+            this.game.cursor.color = "red";
+        }
+    }
+
 };
 
 Build.prototype.Build = function(startX, startY, xScroll, yScroll){
