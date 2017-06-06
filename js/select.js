@@ -21,6 +21,15 @@ Mod.prototype.isEmpty = function(x, y){
 };
 
 Mod.prototype.update = function(dt, xScroll, yScroll){
+    if(this.touch && this.touch.clicked){
+        var tilemap = this.game.level.tilemap;
+        var tile = utils.getMapCoords(this.touch, tilemap, xScroll, yScroll, 32, 32);
+        if(!this.isEmpty(tile.x, tile.y)){
+            this.Select(tile.x, tile.y, xScroll, yScroll);
+        }
+        this.mouse.clicked = false;
+        this.touch.clicked = false;
+    }
     if(this.mouse && this.mouse.clicked){
         var tilemap = this.game.level.tilemap;
         var tile = utils.getMapCoords(this.mouse, tilemap, xScroll, yScroll, 32, 32);
@@ -29,6 +38,8 @@ Mod.prototype.update = function(dt, xScroll, yScroll){
         }
         this.mouse.clicked = false;
     }
+    this.game.messages.push('input:(' + self.mouse.x + ',' +  + self.mouse.y + ',' +  + self.mouse.clicked + ")");
+
 };
 
 Mod.prototype.LevelUp = function(dt, startX, startY, xScroll, yScroll){

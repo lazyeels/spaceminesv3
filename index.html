@@ -118,20 +118,37 @@ var fpsCount = 0;
 var fps = fpsCount;
 
 // Prevent scrolling when touching the canvas
-document.body.addEventListener("touchstart", function (e) {
-  if (e.target == canvas) {
+document.addEventListener("touchstart", function (e) {
+  //if (e.target == canvas) {
     e.preventDefault();
-  }
+ // }
+}, false);
+document.addEventListener("touchend", function (e) {
+  //if (e.target == canvas) {
+    e.preventDefault();
+ // }
+}, false);
+document.addEventListener("touchmove", function (e) {
+  //if (e.target == canvas) {
+    e.preventDefault();
+  //}
+}, false);
+
+// Prevent scrolling when touching the canvas
+document.body.addEventListener("touchstart", function (e) {
+  //if (e.target == canvas) {
+    e.preventDefault();
+  //}
 }, false);
 document.body.addEventListener("touchend", function (e) {
-  if (e.target == canvas) {
+  //if (e.target == canvas) {
     e.preventDefault();
-  }
+  //}
 }, false);
 document.body.addEventListener("touchmove", function (e) {
-  if (e.target == canvas) {
+  //if (e.target == canvas) {
     e.preventDefault();
-  }
+  //}
 }, false);
 // Test for keyup and keydown events and run corresponding function in Game Class.
 document.onkeydown = function(e){

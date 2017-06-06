@@ -149,47 +149,25 @@ Game.prototype.Init = function(fps){
     this.satellites = [];
     this.messages = [];
     this.game_objects = [];
-
-    this.canvas.addEventListener('touchstart', function(e){
+    var self = this;
+    self.canvas.addEventListener('touchstart', function(e){
+        e.preventDefault()
         var touchobj = e.changedTouches[0] // reference first touch point (ie: first finger)
-        this.mouse.x = parseInt(touchobj.clientX);
-        this.mouse.y = parseInt(touchobj.clientY);
-        this.mouse.clicked = true;
+        self.mouse.x = parseInt(touchobj.clientX);
+        self.mouse.y = parseInt(touchobj.clientY);
+        self.mouse.clicked = true;
+
+    }, false)
+ 
+    self.canvas.addEventListener('touchend', function(e){
         e.preventDefault()
-    }, false)
- 
-    this.canvas.addEventListener('touchmove', function(e){
-//        var touchobj = e.changedTouches[0] // reference first touch point for this event
-//        var dist = parseInt(touchobj.clientX) - startx
-//        statusdiv.innerHTML = 'Status: touchmove<br> Horizontal distance traveled: ' + dist + 'px'
-//        e.preventDefault()
-    }, false)
- 
-    this.canvas.addEventListener('touchend', function(e){
         var touchobj = e.changedTouches[0] // reference first touch point for this event
-        this.mouse.x = parseInt(touchobj.clientX);
-        this.mouse.y = parseInt(touchobj.clientY);
-        this.mouse.clicked = false;
-        e.preventDefault()
+        self.mouse.x = parseInt(touchobj.clientX);
+        self.mouse.y = parseInt(touchobj.clientY);
+        self.mouse.clicked = false;
+        self.messages.push(self.worlds[id].name + ': (' + self.mouse.x + ',' +  + self.mouse.y + ',' +  + self.mouse.clicked + ")");
     }, false)
 
-    var canvas = this.canvas;
-    // Prevent scrolling when touching the canvas
-    document.body.addEventListener("touchstart", function (e) {
-      if (e.target == canvas) {
-        e.preventDefault();
-      }
-    }, false);
-    document.body.addEventListener("touchend", function (e) {
-      if (e.target == canvas) {
-        e.preventDefault();
-      }
-    }, false);
-    document.body.addEventListener("touchmove", function (e) {
-      if (e.target == canvas) {
-        e.preventDefault();
-      }
-    }, false);
     this.initialised = true;
 };
 
@@ -205,6 +183,7 @@ Game.prototype.Get = function(id){
 
 Game.prototype.addMessage = function(id, text){
     this.messages.push(this.worlds[id].name + ': ' + text);
+
 };
 
 Game.prototype.ProcessMessages = function(){
